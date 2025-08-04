@@ -3,23 +3,20 @@ const cors = require("cors");
 const mysql = require("mysql2/promise");
 require("dotenv").config();
 
-// Mostrar quién se conecta
 console.log("Usuario de la base de datos:", process.env.DB_USER);
 
-// Crear el servidor
 const server = express();
 
-// Configurar middlewares
 server.use(cors());
-server.use(express.json()); // Para recibir JSON en el body
+server.use(express.json()); 
 
-// Puerto
+
 const port = process.env.PORT || 4000;
 server.listen(port, () => {
   console.log(`🟢 Server escuchando en: http://localhost:${port}`);
 });
 
-// Conexión con la DB
+
 const getConnection = async () => {
   const connection = await mysql.createConnection({
     host: process.env.DB_HOST,
@@ -31,7 +28,7 @@ const getConnection = async () => {
   return connection;
 };
 
-// Obtener todas las frases
+
 server.get('/allfrases', async (req, res) => {
   try {
     const connection = await getConnection();
@@ -80,12 +77,12 @@ server.get('/frases', async (req, res) => {
   }
 });
 
-// Insertar una frase
+
 server.post('/frases', async (req, res) => {
   try {
     const { texto, marca_tiempo, descripcion, capitulos_id } = req.body;
 
-    console.log('REQ BODY:', req.body); // Para verificar lo que llega
+    console.log('REQ BODY:', req.body); 
 
     if (!texto || !capitulos_id) {
       return res.status(400).json({
@@ -115,7 +112,7 @@ server.post('/frases', async (req, res) => {
   }
 });
 
-// Obtener una frase específica por ID
+
 server.get('/frases/:id', async (req, res) => {
   try {
     const fraseId = req.params.id;
